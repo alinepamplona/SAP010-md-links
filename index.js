@@ -1,14 +1,32 @@
 const fs = require ('fs')
-const path = require ('path')
+const pathLib = require ('path')
 
 function getFiles(path){
-  const arrFiles = ['./files/test.txt', './files/test.md']
+  const arrFiles = []
+  try {
+    const files = fs.readdirSync(path)
+
+    for (const file of files) {
+      const filePath = pathLib.join(path, file)
+      const fileStat = fs.statSync(filePath)
+
+      if (fileStat.isDirectory()) {
+        arrFiles.push(...getFiles(filePath))
+      } else {
+        arrFiles.push(filePath)
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+    return []
+  }
+
   return arrFiles
 }
 
 function readFile (filePath){
   return new Promise((resolve, reject) => {
-    const ext = path.extname(filePath)
+    const ext = pathLib.extname(filePath)
 
     if (ext !== '.md') {
       reject('Este arquivo não é md.')
@@ -25,7 +43,8 @@ function readFile (filePath){
 }
 
 function mdLinks (path, options){
-  const arrFiles = getFiles(path)
+  const absPath = pathLib.resolve(path)
+  const arrFiles = getFiles(absPath)
   arrFiles.map((file)=>{
     readFile(file)
       .then((content)=>{
@@ -37,6 +56,6 @@ function mdLinks (path, options){
   })
 }
 
-mdLinks('', '')
+mdLinks('./files', '')
 
 module.exports = mdLinks;
