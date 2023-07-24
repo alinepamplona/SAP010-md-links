@@ -2,10 +2,10 @@ const fs = require ('fs')
 const pathLib = require ('path')
 
 function getFiles(path){
-  const arrFiles = []
   try {
     const files = fs.readdirSync(path)
 
+    const arrFiles = []
     for (const file of files) {
       const filePath = pathLib.join(path, file)
       const fileStat = fs.statSync(filePath)
@@ -16,12 +16,13 @@ function getFiles(path){
         arrFiles.push(filePath)
       }
     }
+
+    return arrFiles
   } catch (error) {
     console.log(error.message);
-    return []
   }
 
-  return arrFiles
+  return []
 }
 
 function getLinks(filePath, fileContent){
@@ -43,22 +44,26 @@ function getLinks(filePath, fileContent){
   return links
 }
 
-function readFile (filePath){
-  let arrLinks = []
-  try {
+function readFile(filePath) {
+  return new Promise((resolve, reject) => {
     const ext = pathLib.extname(filePath)
-    if (ext !== '.md') {
-      console.log("Este arquivo não é .md - "+pathLib.basename(filePath));
-    } else {
-      const fileContent = fs.readFileSync(filePath,'utf8')
-      arrLinks = getLinks(filePath, fileContent)
-    }
-  } catch(error) {
-    console.log("catch "+error.message);
-    return []
-  }
 
-  return arrLinks
+    let links = []
+
+    if (ext != '.md') {
+      console.log("Este arquivo não é .md - "+pathLib.basename(filePath))
+      resolve(links)
+    } else {
+      fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          reject(err)
+        } else {
+          links = getLinks(filePath, data);
+          resolve(links);
+        }
+      })
+    }
+  })
 }
 
 function mdLinks (path, options){
@@ -66,17 +71,28 @@ function mdLinks (path, options){
     const absPath = pathLib.resolve(path)
     const arrFiles = getFiles(absPath)
 
-    const arrLinks = []
-    for (const file of arrFiles) {
-      arrLinks.push(...readFile(file))
-    }
-    resolve(arrLinks)
+    const promises = arrFiles.map((file) =>
+      readFile(file)
+    )
+
+    Promise.all(promises)
+      .then((results) => {
+        resolve(results.flat())
+      })
+      .catch((err)=>{
+        reject(err)
+      })
   })
 }
 
 mdLinks('./files', '')
   .then((arrLinks) => {
-    console.log(arrLinks)
+    arrLinks.forEach(element => {
+      console.table(element)
+    });
+  })
+  .catch((error) => {
+    console.log(error)
   })
 
 module.exports = mdLinks;
