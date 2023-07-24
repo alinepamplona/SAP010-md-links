@@ -24,38 +24,59 @@ function getFiles(path){
   return arrFiles
 }
 
-function readFile (filePath){
-  return new Promise((resolve, reject) => {
-    const ext = pathLib.extname(filePath)
+function getLinks(filePath, fileContent){
+  const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
+  const matches = fileContent.matchAll(regex)
 
-    if (ext !== '.md') {
-      reject('Este arquivo não é md.')
-    } else {
-      fs.readFile(filePath,'utf8', function(err, data){
-        if(err) {
-          reject(err.message)
-        } else {
-          resolve(data)
-        }
-      });
+  const links = []
+
+  for(const match of matches) {
+    const link = {
+      href: match[2],
+      text: match[1],
+      file: filePath
     }
-  })
+
+    links.push(link)
+  }
+
+  return links
+}
+
+function readFile (filePath){
+  let arrLinks = []
+  try {
+    const ext = pathLib.extname(filePath)
+    if (ext !== '.md') {
+      console.log("Este arquivo não é .md - "+pathLib.basename(filePath));
+    } else {
+      const fileContent = fs.readFileSync(filePath,'utf8')
+      arrLinks = getLinks(filePath, fileContent)
+    }
+  } catch(error) {
+    console.log("catch "+error.message);
+    return []
+  }
+
+  return arrLinks
 }
 
 function mdLinks (path, options){
-  const absPath = pathLib.resolve(path)
-  const arrFiles = getFiles(absPath)
-  arrFiles.map((file)=>{
-    readFile(file)
-      .then((content)=>{
-        console.log(file+' - '+content)
-      })
-      .catch((err)=>{
-        console.log(file+' - '+err)
-      })
+  return new Promise((resolve, reject) => {
+    const absPath = pathLib.resolve(path)
+    const arrFiles = getFiles(absPath)
+
+    const arrLinks = []
+    for (const file of arrFiles) {
+      arrLinks.push(...readFile(file))
+    }
+    resolve(arrLinks)
   })
 }
 
 mdLinks('./files', '')
+  .then((arrLinks) => {
+    console.log(arrLinks)
+  })
 
 module.exports = mdLinks;
