@@ -1,5 +1,6 @@
 const fs = require ('fs')
 const pathLib = require ('path')
+const axios = require ('axios')
 
 function getFiles(path){
   try {
@@ -25,6 +26,26 @@ function getFiles(path){
   return []
 }
 
+function validateLinks(links){
+  return Promise.all(links.map((link) =>
+    axios.get(link.href)
+      .then((response) => {
+        link.status = response.status
+        link.message = response.statusText
+        return link
+      })
+      .catch((error) => {
+        if (error.response) {
+          link.status = error.response.status
+        } else {
+          link.status = error.code
+        }
+        link.message = 'FAIL'
+        return link
+      })
+  ))
+}
+
 function getLinks(filePath, fileContent){
   const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
   const matches = fileContent.matchAll(regex)
@@ -37,29 +58,35 @@ function getLinks(filePath, fileContent){
       text: match[1],
       file: filePath
     }
-
     links.push(link)
   }
 
   return links
 }
 
-function readFile(filePath) {
+function readFile(filePath, options) {
   return new Promise((resolve, reject) => {
     const ext = pathLib.extname(filePath)
-
-    let links = []
-
-    if (ext != '.md') {
-      console.log("Este arquivo não é .md - "+pathLib.basename(filePath))
-      resolve(links)
+    if (ext !== '.md') {
+      console.log("Este arquivo não é .md - "+pathLib.basename(filePath));
+      resolve([])
     } else {
       fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
           reject(err)
         } else {
-          links = getLinks(filePath, data);
-          resolve(links);
+          const links = getLinks(filePath, data)
+          if (options.validate) {
+            validateLinks(links)
+              .then((validatedLinks) => {
+                resolve(validatedLinks)
+              })
+              .catch((error) => {
+                reject(error)
+              })
+          } else {
+            resolve(links)
+          }
         }
       })
     }
@@ -72,7 +99,7 @@ function mdLinks (path, options){
     const arrFiles = getFiles(absPath)
 
     const promises = arrFiles.map((file) =>
-      readFile(file)
+      readFile(file, options)
     )
 
     Promise.all(promises)
@@ -85,11 +112,9 @@ function mdLinks (path, options){
   })
 }
 
-mdLinks('./files', '')
+mdLinks('./files', { validate: true })
   .then((arrLinks) => {
-    arrLinks.forEach(element => {
-      console.table(element)
-    });
+    console.table(arrLinks)
   })
   .catch((error) => {
     console.log(error)
