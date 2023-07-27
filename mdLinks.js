@@ -112,12 +112,6 @@ function mdLinks (path, options){
   })
 }
 
-mdLinks('./files', { validate: true })
-  .then((arrLinks) => {
-    console.table(arrLinks)
-  })
-  .catch((error) => {
-    console.log(error)
-  })
-
-module.exports = mdLinks;
+module.exports = {
+  mdLinks
+};
