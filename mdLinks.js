@@ -4,18 +4,18 @@ const axios = require ('axios')
 
 function getFiles(path){
   try {
+    const stat = fs.statSync(path)
+    if (!stat.isDirectory()) {
+      return [ path ]
+    }
+
     const files = fs.readdirSync(path)
 
     const arrFiles = []
     for (const file of files) {
       const filePath = pathLib.join(path, file)
-      const fileStat = fs.statSync(filePath)
 
-      if (fileStat.isDirectory()) {
-        arrFiles.push(...getFiles(filePath))
-      } else {
-        arrFiles.push(filePath)
-      }
+      arrFiles.push(...getFiles(filePath))
     }
 
     return arrFiles
