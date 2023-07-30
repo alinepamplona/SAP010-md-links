@@ -27,7 +27,7 @@ mdLinks(path, options)
         const brokenLinks = arrLinks.filter((link) => link.message != 'OK')
         console.log("Links broken: "+brokenLinks.length)
       }
-    } else {
+    } else if (arrLinks.length > 0) {
       console.table(arrLinks)
     }
   })
