@@ -26,6 +26,7 @@
     "nodemon": "^3.0.1"
   },
   "scripts": {
-    "dev": "nodemon CLI.js"
+    "dev": "nodemon CLI.js",
+    "test": "jest --coverage"
   }
 }

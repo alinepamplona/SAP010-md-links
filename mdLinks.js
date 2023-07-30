@@ -20,7 +20,11 @@ function getFiles(path){
 
     return arrFiles
   } catch (error) {
-    console.log(error.message);
+    if (error.code === 'ENOENT') {
+      console.log('Arquivo ou diretório não encontrado: '+path)
+    } else {
+      console.log(error.message);
+    }
   }
 
   return []
@@ -76,7 +80,7 @@ function readFile(filePath, options) {
           reject(err)
         } else {
           const links = getLinks(filePath, data)
-          if (options.validate) {
+          if (options && options.validate) {
             validateLinks(links)
               .then((validatedLinks) => {
                 resolve(validatedLinks)

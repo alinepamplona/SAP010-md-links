@@ -1,5 +1,5 @@
-[Laboratória](https://www.laboratoria.la/br)
+[W3schools](https://www.w3schools.com/)
 
-[Free Code Camp](https://www.freecodecamp.org/)
+[YouTube](https://www.youtube.com/)
 
-[GitHub](https://github.com/)
+[Gov](https://www.gov.br/pt-br)
