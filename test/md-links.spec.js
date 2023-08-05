@@ -1,7 +1,5 @@
-const { mdLinks } = require('../mdLinks.js');
-const fs = require ('fs')
+const { mdLinks } = require('../src/mdLinks.js');
 const pathLib = require ('path')
-const axios = require ('axios')
 
 const testFolderPath = './files/test'
 const testFilePath = './files/test/test.md'
@@ -65,7 +63,7 @@ describe('Testando a função mdLinks', () => {
 
   });
 
-  it('Quando receber um path que não existe, deve retornar um array vazio'
+  it('Quando receber um path que não existe, deve retornar um array vazio '
     + 'e mostrar uma mensagem no console.log', () => {
     const expected = []
 

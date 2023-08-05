@@ -1,8 +1,20 @@
 {
   "env": {
-    "node": true
+    "node": true,
+    "es6": true,
+    "jest": true
   },
   "parserOptions": {
-    "ecmaVersion": 8
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-console": "off",
+    "import/extensions": 0,
+    "no-var": "error",
+    "prefer-const": "error",
+    "eqeqeq": "error",
+    "indent": ["error", 2]
   }
 }
