@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { argv } = require('process')
-const { mdLinks } = require('../mdLinks');
+const { mdLinks } = require('./mdLinks.js');
 
 const path = argv[2];
 
