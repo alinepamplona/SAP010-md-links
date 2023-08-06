@@ -1,6 +1,7 @@
 const fs = require ('fs')
 const pathLib = require ('path')
 const axios = require ('axios')
+const { table } = require('table')
 
 function getFiles(path){
   try {
@@ -34,17 +35,17 @@ function validateLinks(links){
   return Promise.all(links.map((link) =>
     axios.get(link.href)
       .then((response) => {
-        link.status = response.status
-        link.message = response.statusText
+        link.code = response.status
+        link.status = response.statusText
         return link
       })
       .catch((error) => {
         if (error.response) {
-          link.status = error.response.status
+          link.code = error.response.status
         } else {
-          link.status = error.code
+          link.code = error.code
         }
-        link.message = 'FAIL'
+        link.status = 'FAIL'
         return link
       })
   ))
@@ -58,8 +59,8 @@ function getLinks(filePath, fileContent){
 
   for(const match of matches) {
     const link = {
-      href: match[2],
       text: match[1],
+      href: match[2],
       file: filePath
     }
     links.push(link)
@@ -72,7 +73,7 @@ function readFile(filePath, options) {
   return new Promise((resolve, reject) => {
     const ext = pathLib.extname(filePath)
     if (ext !== '.md') {
-      console.log("Este arquivo não é .md - "+pathLib.basename(filePath));
+      console.log(table([[pathLib.basename(filePath), "Este arquivo não é .md"]]));
       resolve([])
     } else {
       fs.readFile(filePath, 'utf8', (err, data) => {
