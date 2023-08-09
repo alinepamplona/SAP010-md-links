@@ -4,9 +4,9 @@
 
 * [1. Prefácio](#1-prefácio)
 * [2. Sobre o projeto](#2-sobre-o-projeto)
-* [3. Documentação e Guia de uso da API](#3-documentacao-e-guia-de-uso-da-API)
-* [4. Documentação e Guia de uso da CLI](#4-documentacao-e-guia-de-uso-da-CLI)
-* [5. Considerações técnicas](#5-consideracoes-tecnicas)
+* [3. Documentação e Guia de uso da API](#3-documentação-e-guia-de-uso-da-API)
+* [4. Documentação e Guia de uso da CLI](#4-documentação-e-guia-de-uso-da-CLI)
+* [5. Considerações técnicas](#5-considerações-técnicas)
 * [6. Fluxograma](#6-fluxograma)
 * [7. Desenvolvedora](#7-desenvolvedora)
 
@@ -37,7 +37,6 @@ As funcionalidades atualmente disponíveis são:
 
 * **Estatísticas de links:** exibe o número total de links encontrados, total de links únicos e o número de links que estão funcionando corretamente.
 
-
 ## 3. Documentação e Guia de uso da API
 
 ### Visão geral
@@ -52,9 +51,9 @@ Para utilizar a API mdLinks em seu projeto, é necessário instalar o pacote atr
 
 A API mdLinks fornece a função mdLinks(path, options), que pode ser utilizada para analisar os arquivos Markdown e obter os links contidos neles. Veja como utilizar a função:
 
-	```js
-import { mdLinks } from "alinepamplona-md-links"
-	
+	```js import { mdLinks } from "alinepamplona-md-links"```
+
+  ```js
 // Exemplo de uso
 mdLinks('caminho/do/diretorio', { validate : true } /*opcional*/)
   .then((links) => {
@@ -63,7 +62,8 @@ mdLinks('caminho/do/diretorio', { validate : true } /*opcional*/)
   .catch((error) => {
     console.error(error);
   });
-	```
+  ```
+
 A função mdLinks recebe dois argumentos:
 
 * **path** (string, obrigatório): Caminho absoluto ou relativo do diretório ou arquivo Markdown a ser analisado.
@@ -104,19 +104,35 @@ O CLI aceita os seguintes comandos e opções:
 
 Exemplo de uso:
 
-```md-links caminho/do/diretorio --validate --stats```
+```
+md-links caminho/do/diretorio --validate --stats
+```
 
 ### Interface do usuário
 
-[IMAGENS DA UTILIZAÇÃO DO CLI]
+<div align="center">
+ <img alt="path" src="https://github.com/alinepamplona/SAP010-md-links/assets/131008280/c32876d4-8c90-4597-9675-0ca7da0f9bb0" width="800"/><br>
+ <img alt="validate" src="https://github.com/alinepamplona/SAP010-md-links/assets/131008280/9f1ce0ff-61e4-46aa-ac9f-4fd4659d8368" width="800"/><br>
+</div>
+
+### Comando para estátisticas:
+$ md-links './files' --stats --validate e $ md-links './files' --stats --validate
+
+<div align="center">
+ <img alt="stats" src="https://github.com/alinepamplona/SAP010-md-links/assets/131008280/3742d11e-3e98-4ea0-a30c-36ff7df33f65" width="400"/><br>
+</div>
 
 ### Mensagem de erro
 
 * ENOENT (Erro de não encontrado): O arquivo ou diretório especificado não foi encontrado.
-* Erros de leitura de arquivos.
-* Erros de validação de links.
+<div align="center">
+ <img alt="noenc" src="https://github.com/alinepamplona/SAP010-md-links/assets/131008280/c28c11a9-a79b-4fbf-81d0-1f509fb8dff4" width="700"/><br>
+</div>
 
-[IMAGENS DOS ERROS NO CLI]
+* Erros de leitura de arquivos e de validação de links.
+<div align="center">
+ <img alt="noenc" src="https://github.com/alinepamplona/SAP010-md-links/assets/131008280/01752621-62f5-4b6e-84f9-0949e24779bb" width="700"/><br>
+</div>
 
 ## 5. Considerações técnicas
 
