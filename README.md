@@ -3,15 +3,12 @@
 ## Índice
 
 * [1. Prefácio](#1-prefácio)
-* [2. Resumo do projeto](#2-resumo-do-projeto)
-* [3. Objetivos de aprendizagem](#3-objetivos-de-aprendizagem)
-* [4. Considerações gerais](#4-considerações-gerais)
-* [5. Critérios de aceitação mínimos do projeto](#5-criterios-de-aceitação-mínimos-do-projeto)
-* [6. Entregáveis](#6-entregáveis)
-* [7. Hacker edition](#7-hacker-edition)
-* [8. Guias, dicas e leituras complementares](#8-guias-dicas-e-leituras-complementares)
-* [9. Checklist](#9-checklist)
-* [10. Dividindo o problema - babies steps](#10-dividindo-o-problema)
+* [2. Sobre o projeto](#2-sobre-o-projeto)
+* [3. Documentação e Guia de uso da API](#3-documentacao-e-guia-de-uso-da-API)
+* [4. Documentação e Guia de uso da CLI](#4-documentacao-e-guia-de-uso-da-CLI)
+* [5. Considerações técnicas](#5-consideracoes-tecnicas)
+* [6. Fluxograma](#6-fluxograma)
+* [7. Desenvolvedora](#7-desenvolvedora)
 
 ***
 
@@ -34,11 +31,11 @@ dentro de um link. Também pode validar os links e fornecer estatísticas sobre 
 
 As funcionalidades atualmente disponíveis são:
 
-* Listagem de links: exibe os links encontrados nos arquivos Markdown, mostrando a rota do arquivo onde foi encontrado o link, a URL encontrada e o texto que aparece dentro do link.
+* **Listagem de links:** exibe os links encontrados nos arquivos Markdown, mostrando a rota do arquivo onde foi encontrado o link, a URL encontrada e o texto que aparece dentro do link.
 
-* Validação de links: verifica se os links encontrados nos arquivos Markdown estão funcionando corretamente, retornando o código de status HTTP da URL correspondente. Também são exibidas mensagens sobre a validação, fail em caso de falha ou ok em caso de sucesso.
+* **Validação de links:** verifica se os links encontrados nos arquivos Markdown estão funcionando corretamente, retornando o código de status HTTP da URL correspondente. Também são exibidas mensagens sobre a validação, fail em caso de falha ou ok em caso de sucesso.
 
-* Estatísticas de links: exibe o número total de links encontrados, total de links únicos e o número de links que estão funcionando corretamente.
+* **Estatísticas de links:** exibe o número total de links encontrados, total de links únicos e o número de links que estão funcionando corretamente.
 
 
 ## 3. Documentação e Guia de uso da API
@@ -56,9 +53,7 @@ Para utilizar a API mdLinks em seu projeto, é necessário instalar o pacote atr
 A API mdLinks fornece a função mdLinks(path, options), que pode ser utilizada para analisar os arquivos Markdown e obter os links contidos neles. Veja como utilizar a função:
 
 	```js
-	import { mdLinks } from "alinepamplona-md-links";
-
-### Uso
+import { mdLinks } from "alinepamplona-md-links"
 	
 // Exemplo de uso
 mdLinks('caminho/do/diretorio', { validate : true } /*opcional*/)
@@ -71,9 +66,9 @@ mdLinks('caminho/do/diretorio', { validate : true } /*opcional*/)
 	```
 A função mdLinks recebe dois argumentos:
 
-* path (string, obrigatório): Caminho absoluto ou relativo do diretório ou arquivo Markdown a ser analisado.
+* **path** (string, obrigatório): Caminho absoluto ou relativo do diretório ou arquivo Markdown a ser analisado.
 
-* options (object, opcional): Opções adicionais para a função. Atualmente, a única opção disponível é validate, que é um valor booleano indicando se os links devem ser validados ou não. Por padrão, essa opção é false. Se definida como true, a API tentará validar cada link verificando se está acessível.
+* **options** (object, opcional): Opções adicionais para a função. Atualmente, a única opção disponível é validate, que é um valor booleano indicando se os links devem ser validados ou não. Por padrão, essa opção é false. Se definida como true, a API tentará validar cada link verificando se está acessível.
 
 ### Retorno da Função
 
@@ -88,19 +83,24 @@ A função mdLinks retorna uma Promise que, quando resolvida, fornece uma lista 
 ## 4. Documentação e Guia de uso da CLI
 
 O CLI (Command Line Interface) da API mdLinks é uma interface de linha de comando que permite utilizar a funcionalidade de extração e validação de links presentes em arquivos Markdown. Através do CLI, é possível exibir os links encontrados, obter estatísticas sobre eles e validar a disponibilidade dos links online.
+
 Instalação:
+
 O CLI faz parte da biblioteca alinepamplona-md-links, portanto, para utilizá-lo, é necessário ter a biblioteca instalada globalmente. Caso ainda não tenha instalado a biblioteca, abra o terminal e execute o seguinte comando:
+
 ```npm install -g alinepamplona/SAP010-md-links```
+
 Comandos disponíveis:
+
 O CLI aceita os seguintes comandos e opções:
+
 ```md-links <path-to-file> [--stats] [--validate]```
 
-<path-to-file> (obrigatório): Caminho absoluto ou relativo para o diretório ou arquivo Markdown que você deseja analisar.
---stats (opcional): Ao incluir essa opção, o CLI exibirá estatísticas sobre os links encontrados, mostrando o número total de links e o número de links únicos. Se a opção --validate também for incluída, será exibido o número de links quebrados (com respostas de status diferentes de 'OK').
+**<path-to-file>** (obrigatório): Caminho absoluto ou relativo para o diretório ou arquivo Markdown que você deseja analisar.
 
---validate (opcional): Ao incluir essa opção, o CLI fará uma validação dos links encontrados, verificando se estão acessíveis online. Esta opção pode aumentar o tempo de execução, pois envolve realizar requisições HTTP para cada link encontrado.
+**--stats** (opcional): Ao incluir essa opção, o CLI exibirá estatísticas sobre os links encontrados, mostrando o número total de links e o número de links únicos. Se a opção --validate também for incluída, será exibido o número de links quebrados (com respostas de status diferentes de 'OK').
 
-### Uso
+**--validate** (opcional): Ao incluir essa opção, o CLI fará uma validação dos links encontrados, verificando se estão acessíveis online. Esta opção pode aumentar o tempo de execução, pois envolve realizar requisições HTTP para cada link encontrado.
 
 Exemplo de uso:
 
@@ -109,6 +109,7 @@ Exemplo de uso:
 ### Interface do usuário
 
 [IMAGENS DA UTILIZAÇÃO DO CLI]
+
 ### Mensagem de erro
 
 * ENOENT (Erro de não encontrado): O arquivo ou diretório especificado não foi encontrado.
@@ -125,11 +126,11 @@ A biblioteca segue a modularização em CommonJs Modules, utilizando módulos re
 
 ### Bibliotecas Utilizadas
 
-* **[chalk]:** Adiciona cores e estilos ao texto exibido no terminal.
-* **[table]:** Formata um array de dados para criar tabelas de texto organizadas.
-* **[axios]:** Realiza requisições HTTP para validar a disponibilidade dos links.
-* **[path]:**: Manipula caminhos de diretórios e arquivos.
-* **[fs]:** Manipula a leitura e escrita de arquivos.
+* **[path](https://www.npmjs.com/package/path):**: Manipula caminhos de diretórios e arquivos.
+* **[fs](https://www.npmjs.com/package/file-system#fs):** Manipula a leitura e escrita de arquivos.
+* **[axios](https://www.npmjs.com/package/axios):** Realiza requisições HTTP para validar a disponibilidade dos links.
+* **[chalk](https://www.npmjs.com/package/chalk):** Adiciona cores e estilos ao texto exibido no terminal.
+* **[table](https://www.npmjs.com/package/table?activeTab=readme):** Formata um array de dados para criar tabelas de texto organizadas.
 
 ## 6. Fluxograma
 
@@ -138,4 +139,4 @@ A biblioteca segue a modularização em CommonJs Modules, utilizando módulos re
 
 ### Aline Pamplona
 
-[![Github Badge](https://img.shields.io/badge/-Github-000?style=flat-square&logo=Github&logoColor=white&link)](https://github.com/alinepamplona) [![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link)](https://www.linkedin.com/in/alinebpamplona/)
+[![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link)](https://www.linkedin.com/in/alinebpamplona/)
