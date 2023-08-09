@@ -1,7 +1,7 @@
 const fs = require ('fs')
 const pathLib = require ('path')
 const axios = require ('axios')
-const { table } = require('table')
+const chalk = require('chalk');
 
 function getFiles(path){
   try {
@@ -16,15 +16,18 @@ function getFiles(path){
     for (const file of files) {
       const filePath = pathLib.join(path, file)
 
+      // o array de arquivos é a concatenação dos arrays do subdiretorio
       arrFiles.push(...getFiles(filePath))
+      // flat(): 1=[ 2=[1, 2], 3=[3, 4] ] => 1=[ 1, 2, 3, 4 ]
+      // push(...): 1=[1, 2] 2=[3, 4] => 1=[ 1, 2, 3, 4 ] 2=[3, 4]
     }
 
     return arrFiles
   } catch (error) {
     if (error.code === 'ENOENT') {
-      console.log('Arquivo ou diretório não encontrado: '+path)
+      console.log(chalk.red('Arquivo ou diretório não encontrado: '+path))
     } else {
-      console.log(error.message);
+      console.log(chalk.red(error.message));
     }
   }
 
@@ -52,8 +55,8 @@ function validateLinks(links){
 }
 
 function getLinks(filePath, fileContent){
-  const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
-  const matches = fileContent.matchAll(regex)
+  const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm; // [text](href)
+  const matches = fileContent.matchAll(regex) // => macthes=[ match=[ ..., text, href, ... ] , ... , match=[ .., text, href, ... ] ]
 
   const links = []
 
@@ -73,17 +76,17 @@ function readFile(filePath, options) {
   return new Promise((resolve, reject) => {
     const ext = pathLib.extname(filePath)
     if (ext !== '.md') {
-      console.log(table([[pathLib.basename(filePath), "Este arquivo não é .md"]]));
+      //console.log(table([[chalk.yellow(pathLib.basename(filePath)), chalk.yellow("Este arquivo não é .md")]]));
       resolve([])
     } else {
       fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
           reject(err)
         } else {
-          const links = getLinks(filePath, data)
+          const links = getLinks(filePath, data) // [] => { text, href, file }
           if (options && options.validate) {
             validateLinks(links)
-              .then((validatedLinks) => {
+              .then((validatedLinks) => { // [] => { text, href, file, code, status }
                 resolve(validatedLinks)
               })
               .catch((error) => {
@@ -98,7 +101,8 @@ function readFile(filePath, options) {
   })
 }
 
-function mdLinks (path, options){
+// mdLinks('./files', { validate: true })
+function mdLinks (path, options){ // { validate: boolean }
   return new Promise((resolve, reject) => {
     const absPath = pathLib.resolve(path)
     const arrFiles = getFiles(absPath)
