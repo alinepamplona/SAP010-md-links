@@ -36,9 +36,9 @@ describe('Testando a função mdLinks', () => {
     + 'caminho absoluto do arquivo, status e mensagem', () => {
 
     const expected = [
-      {"file": absFilePath, "href": "https://www.laboratoria.la/br", "message": "OK", "status": 200, "text": "Laboratória"},
-      {"file": absFilePath, "href": "https://www.freecodecamp.org/", "message": "OK", "status": 200, "text": "Free Code Camp"},
-      {"file": absFilePath, "href": "https://github.com/", "message": "OK", "status": 200, "text": "GitHub"}
+      {"file": absFilePath, "href": "https://www.laboratoria.la/br", "status": "OK", "code": 200, "text": "Laboratória"},
+      {"file": absFilePath, "href": "https://www.freecodecamp.org/", "status": "OK", "code": 200, "text": "Free Code Camp"},
+      {"file": absFilePath, "href": "https://github.com/", "status": "OK", "code": 200, "text": "GitHub"}
     ]
     
     return mdLinks(testFilePath, optionsValidateTrue).then((arrLinks) => {
@@ -50,11 +50,11 @@ describe('Testando a função mdLinks', () => {
     + 'caminho absoluto dos arquivos que estão dentro do diretório', () => {
 
     const expected = [
-      {"file": absFailTestPath, "href": "https://githubb.com/", "message": "FAIL", "status": "ENOTFOUND", "text": "GitHubb"},
-      {"file": absFailTestPath, "href": "https://github.com/asdhjgvasdasdas/", "message": "FAIL", "status": 404, "text": "GitHub Fail"},
-      {"file": absFilePath, "href": "https://www.laboratoria.la/br", "message": "OK", "status": 200, "text": "Laboratória"},
-      {"file": absFilePath, "href": "https://www.freecodecamp.org/", "message": "OK", "status": 200, "text": "Free Code Camp"},
-      {"file": absFilePath, "href": "https://github.com/", "message": "OK", "status": 200, "text": "GitHub"}
+      {"file": absFailTestPath, "href": "https://githubb.com/", "status": "FAIL", "code": "ENOTFOUND", "text": "GitHubb"},
+      {"file": absFailTestPath, "href": "https://github.com/asdhjgvasdasdas/", "status": "FAIL", "code": 404, "text": "GitHub Fail"},
+      {"file": absFilePath, "href": "https://www.laboratoria.la/br", "status": "OK", "code": 200, "text": "Laboratória"},
+      {"file": absFilePath, "href": "https://www.freecodecamp.org/", "status": "OK", "code": 200, "text": "Free Code Camp"},
+      {"file": absFilePath, "href": "https://github.com/", "status": "OK", "code": 200, "text": "GitHub"}
     ]
 
     return mdLinks(testFolderPath, optionsValidateTrue).then((arrLinks) => {
