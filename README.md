@@ -54,7 +54,8 @@ A API mdLinks fornece a função mdLinks(path, options), que pode ser utilizada 
 
 	```js
 import { mdLinks } from "alinepamplona-md-links"
-	
+```
+```js
 // Exemplo de uso
 mdLinks('caminho/do/diretorio', { validate : true } /*opcional*/)
   .then((links) => {
@@ -104,7 +105,9 @@ O CLI aceita os seguintes comandos e opções:
 
 Exemplo de uso:
 
-```md-links caminho/do/diretorio --validate --stats```
+```
+md-links caminho/do/diretorio --validate --stats
+```
 
 ### Interface do usuário
 
