@@ -126,11 +126,11 @@ A biblioteca segue a modularização em CommonJs Modules, utilizando módulos re
 
 ### Bibliotecas Utilizadas
 
-* **[chalk]:** Adiciona cores e estilos ao texto exibido no terminal.
-* **[table]:** Formata um array de dados para criar tabelas de texto organizadas.
-* **[axios]:** Realiza requisições HTTP para validar a disponibilidade dos links.
-* **[path]:**: Manipula caminhos de diretórios e arquivos.
-* **[fs]:** Manipula a leitura e escrita de arquivos.
+* **[path](https://www.npmjs.com/package/path):**: Manipula caminhos de diretórios e arquivos.
+* **[fs](https://www.npmjs.com/package/file-system#fs):** Manipula a leitura e escrita de arquivos.
+* **[axios](https://www.npmjs.com/package/axios):** Realiza requisições HTTP para validar a disponibilidade dos links.
+* **[chalk](https://www.npmjs.com/package/chalk):** Adiciona cores e estilos ao texto exibido no terminal.
+* **[table](https://www.npmjs.com/package/table?activeTab=readme):** Formata um array de dados para criar tabelas de texto organizadas.
 
 ## 6. Fluxograma
 
