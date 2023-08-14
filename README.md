@@ -8,7 +8,7 @@
 * [4. Documentação e Guia de uso da CLI](#4-documentação-e-guia-de-uso-da-CLI)
 * [5. Considerações técnicas](#5-considerações-técnicas)
 * [6. Fluxograma](#6-fluxograma)
-* [7. Desenvolvedora](#7-desenvolvedora)
+* [7. Contato](#7-contato)
 
 ***
 
@@ -150,8 +150,11 @@ A biblioteca segue a modularização em CommonJs Modules, utilizando módulos re
 
 ## 6. Fluxograma
 
+<div align="center">
+ <img alt="fluxograma" src="https://github.com/alinepamplona/SAP010-md-links/assets/131008280/1a8da015-d9eb-4ee1-a5d5-98a310c1482e" width="700"/><br>
+</div>
 
-## 7. Desenvolvedora
+## 7. Contato
 
 ### Aline Pamplona
 

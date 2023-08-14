@@ -54,7 +54,6 @@ function printLinksTable(links, validate) {
   console.log(table(data, tableConfig))
 }
 
-// verificar como usar o command ou inves de process
 if (!path || argv.includes('help') || argv.includes('-h')) {
   console.log(chalk.yellow("Como usar: md-links <path-to-file> [--stats] [--validate]"))
 } else {

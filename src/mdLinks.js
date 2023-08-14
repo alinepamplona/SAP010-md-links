@@ -18,8 +18,6 @@ function getFiles(path){
 
       // o array de arquivos é a concatenação dos arrays do subdiretorio
       arrFiles.push(...getFiles(filePath))
-      // flat(): 1=[ 2=[1, 2], 3=[3, 4] ] => 1=[ 1, 2, 3, 4 ]
-      // push(...): 1=[1, 2] 2=[3, 4] => 1=[ 1, 2, 3, 4 ] 2=[3, 4]
     }
 
     return arrFiles
@@ -60,7 +58,7 @@ function getLinks(filePath, fileContent){
 
   const links = []
 
-  for(const match of matches) {
+  for(const match of matches) { 
     const link = {
       text: match[1],
       href: match[2],
